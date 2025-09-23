@@ -31,12 +31,10 @@ body {
     height: auto;
     z-index: 1000;
 
-    padding-left: 1px;
+    padding-left: 10px;
     padding-top: 50px;
 }
 #house {
-
-
     position: absolute;
     top: 0;
     left: 0;
