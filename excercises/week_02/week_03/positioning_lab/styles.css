@@ -26,7 +26,7 @@
         /* 1. Move the footer to the bottom of the viewport using the fixed property */
         /* 2. Set the footer to the bottom of the viewport */
         /* 3. Make sure the footer has a width that is as wide as the viewport */
-        background: #141835;
+        background: red;
     }
 
     footer a {

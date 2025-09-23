@@ -1,8 +1,10 @@
 /*------ PART 1 -------------------------*/
 /* 1. Change the background-color for the body to #1695A3*/
 body{
-    background-color: #1695A3;
-    color: #FFFFFF;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    
+    background-color: rebeccapurple;
+    color: black;
 }
 
 /* 2. Change the text color for the body to #FFFFFF*/
