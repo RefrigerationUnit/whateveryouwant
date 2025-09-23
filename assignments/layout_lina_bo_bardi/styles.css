@@ -16,6 +16,9 @@ body {
     font-size: 3rem;
     font-weight: bold;
 }
+.housefooter {
+    color: gray;
+}
 .lang {
     display: none;
     margin-bottom: 2em;
