@@ -2,11 +2,6 @@
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
-html, body {
-    height: 100%;
-    margin: 0;
-}
-
 .wrapper {
     min-height: 100vh;
     display: grid;
@@ -14,14 +9,14 @@ html, body {
 }
 
 main {
-    margin-top: 300px;
-    padding-left: 140px;
-    padding-right: 20px;
+    margin-top: 270px;
     color: blue;
 
     display: grid;
     grid-template-columns: 50px 1fr 1fr 50px;
     gap: 20px;
+
+    align-items: start;
 }
 
 body {
@@ -33,15 +28,8 @@ header {
   top: 0;
   left: 0;
   width: 100%;
-  height: 290px;
+  height: 270px;
   background: darkblue;
-}
-
-.housefooter {
-    color: lightblue;
-    margin-left: 170px;
-    margin-top: 260px;
-    font-size: 12px;
 }
 
 #lina {
@@ -69,10 +57,21 @@ header {
 
     box-sizing: border-box;
     border-radius: 20px;
+
+    z-index: 1;
+}
+
+.housefooter {
+    position: absolute;
+    color: darkblue;
+    margin-left: 170px;
+    margin-top: 25px;
+    z-index: 2;
+    font-size: 12px;
 }
 
 .box {
-    width: 700px;
+    width: auto;
     height: auto;
     border: 3px solid darkblue;
     background: lightblue;
@@ -85,6 +84,7 @@ header {
 
 .box.one {
     grid-column: 2 / 3;
+    box-sizing: border-box;
 }
 
 .box.two {
@@ -108,14 +108,9 @@ hr.middle-line {
 }
 
 footer {
-  grid-row: 3;              /* ensures it stays at bottom of grid */
-  position: sticky;         /* sticks in normal flow */
-  bottom: 0;                /* stick to bottom edge */
-  width: 100%;              /* full width of wrapper, not viewport */
-  background-color: #253f4b;
   color: lightblue;
   text-align: center;
   font-size: 12px;
-  z-index: 1000;
 }
+
 
