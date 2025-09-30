@@ -1,0 +1,38 @@
+body {
+  background-color: #001100; /* very dark green/black background */
+  color: #00ff00;            /* bright neon green text */
+  font-family: 'Courier New', monospace; /* classic monospaced font */
+  font-size: 16px;
+  line-height: 1.5;
+  
+  /* Add glowing text shadow to mimic Matrix style */
+  text-shadow:
+    0 0 5px #00ff00,
+    0 0 10px #00ff00,
+    0 0 20px #00ff00,
+    0 0 40px #00ff00;
+
+    padding: 50px;
+    text-align: center;
+}
+
+/* Center the video vertically & horizontally */
+.center {
+  min-height: 60vh;          /* adjust to taste (or use 100vh for full screen center) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Make the video responsive and keep it crisp */
+.hero-video {
+  max-width: min(90vw, 900px);  /* limit width */
+  max-height: 70vh;             /* limit height */
+  width: 100%;
+  height: auto;
+  display: block;
+  box-shadow: 0 0 20px #00ff00; /* optional: neon glow echo */
+  border-radius: 12px;          /* optional */
+  /* Remove text glow from affecting the video */
+  text-shadow: none;
+}
