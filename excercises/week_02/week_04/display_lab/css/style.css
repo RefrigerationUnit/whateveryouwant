@@ -16,11 +16,30 @@ h1, h2, h3 {
 	list-style: none;
 	border: 1px solid red;
 	padding: 10px;
+	font-size: medium;
+	display: inline-block;
 }
 
 /*---------------------------------------------------------------------
     P L A C E   Y O U R   C S S   B E L O W   T H I S   C O M M E N T
 -----------------------------------------------------------------------*/
+
+a {
+	display: block;
+}
+
+img {
+	display: none;
+}
+
+p {
+	align-items: self-start;
+}
+
+strong {
+	display: block;
+	text-align: right;
+}
 
 /* 
 Prompt: YOU'LL NEED TO CHOOSE BETWEEN inline, inline-block, display or none FOR EACH STEP BELOW.
