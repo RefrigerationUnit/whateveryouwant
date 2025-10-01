@@ -40,3 +40,20 @@
     }
 
     /* Write the code for the image here */
+
+    figure {
+        position:relative;
+        width: 50%;
+        margin: auto;
+    }
+
+    img {
+        width: 100%;
+    }
+
+    figcaption {
+        position: absolute;
+        bottom: 20px;
+        right: 15px;
+        color: white;
+    }
