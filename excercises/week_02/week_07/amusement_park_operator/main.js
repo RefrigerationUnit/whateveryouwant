@@ -20,3 +20,24 @@
     3. Otherwise, recommend the lazy river
         console.log('Why not enjoy a float down the Lazy River?');
 */
+
+let ages = [5, 7, 8, 10, 25, 40, 65, 70];
+let heights = [3, 4, 4.5, 5, 6];
+
+for (let i = 0; i < ages.length; i++) {
+    console.log(ages[i]);
+}
+
+let names = ['Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Frank', 'Grace', 'Hannah'];
+
+for (let i = 0; i < names.length; i++) {
+    console.log(names[i]);
+}
+ let c = 0;
+function multiply(a, b) {
+    c = a * b;
+    return c;
+}
+multiply(4, 7);
+console.log(c);
+
