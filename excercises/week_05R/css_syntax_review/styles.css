@@ -1,0 +1,65 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    background-color: #e2ff59;
+    font-family: courier;
+    margin: 0;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-gap: 5px;
+
+    height: 100vh;
+    width: 100vw;
+    box-sizing: border-box;
+}
+
+.square {
+  width: 100%;
+  background-color: #59a14f;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+
+.wrapper {
+    margin: 0 auto;
+    max-width: 600px;
+    grid-row-start: 2;
+    grid-column-start: 2;
+}
+
+h1, h2 {
+    font-weight: normal;
+    text-align: center;
+}
+
+h1 {
+    font-size: 9vw; /* 9% of viewport width */
+    line-height: 1.1;
+    font-family: 'Yatra One', cursive;
+    margin-bottom: 0;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+/*
+    Instructions:
+    Look at the index.html file, you should see classes added to the HTML elements.
+    - Add a background color to the wrapper
+    - Add a background color to the entries
+    - Add some padding to each entry
+    - Make heading a different font and a larger font size
+    - Make the default font-size 20px
+*/
