@@ -21,26 +21,26 @@ header {
 }
 
 /* No grid on header anymore */
-.grid-container-header p {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    margin: 0;
-    white-space: nowrap;
+.container-header p {
+    position: absolute;       /* Takes element out of normal flow and positions it within header */
+    top: 50%;                 /* Moves the element's top edge to 50% down from the top of the header */
+    transform: translateY(-50%); /* Shifts the element UP by half its own height, vertically centering it in the header */
+    margin: 0;                /* Removes default <p> margins */
+    white-space: wrap;      /* Prevents text from wrapping to new lines */
 }
 
-.grid-container-header .p2 {
+.container-header .p2 {
     left: 20px; /* Add a little padding from left edge */
     text-align: left;
 }
 
-.grid-container-header .p1 {
+.container-header .p1 {
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
 }
 
-.grid-container-header .p3 {
+.container-header .p3 {
     right: 20px; /* Add a little padding from right edge */
     text-align: right;
 }
