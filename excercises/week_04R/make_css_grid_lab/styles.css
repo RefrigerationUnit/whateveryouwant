@@ -30,11 +30,11 @@ img {
     object-fit: cover;
 }
 
-.item {
-    /* padding: 0 0 16px 0; */
-    /* border-radius: 8px; */
-    /* border: 2px solid black; */
-}
+/* .item {
+    padding: 0 0 16px 0;
+    border-radius: 8px;
+    border: 2px solid black;
+} */
 
 .item--1 {
     grid-column-start: 1;
@@ -78,6 +78,6 @@ img {
     grid-row-end: 7;
 }
 
-/* .clip-circle {
+.clip-circle {
     clip-path: circle(250px at center);
-} */
+}
