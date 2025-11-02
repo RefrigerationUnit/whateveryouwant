@@ -16,7 +16,7 @@ body {
 }
 
 header {
-    height: 5vh;
+    height: 7vh;
     position: relative; /* For absolute positioning of children */
 }
 
@@ -27,6 +27,11 @@ header {
     transform: translateY(-50%); /* Shifts the element UP by half its own height, vertically centering it in the header */
     margin: 0;                /* Removes default <p> margins */
     white-space: wrap;      /* Prevents text from wrapping to new lines */
+    
+    border: 1px solid red;
+	padding: 10px;
+
+	margin-bottom: 20px;
 }
 
 .container-header .p2 {
@@ -38,11 +43,14 @@ header {
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    color: red;
+    background-color: yellow;
 }
 
 .container-header .p3 {
     right: 20px; /* Add a little padding from right edge */
     text-align: right;
+    color: blue;
 }
 
 /* Rest remains unchanged */
