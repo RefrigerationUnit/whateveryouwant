@@ -57,5 +57,5 @@ html, body {
     grid-column-start: 3;
     grid-row-start: 5;
 
-    transform: skewX(30deg); /* Skew the square by 20 degrees along the X-axis */
+    transform: skewX(-30deg); /* Skew the square by 30 degrees along the X-axis */
 }
