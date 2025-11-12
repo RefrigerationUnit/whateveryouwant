@@ -33,11 +33,11 @@ const flowers = [
 // Step 2. Select the <ul> so we can put cards inside it:
 const ul = document.querySelector("ul");
 
-/*
-    Step 6. Make the filters work
+
+    // Step 6. Make the filters work
     const filterBtns = document.querySelector(".filters");
-    const cards = document.querySelectorAll(".card");
-*/
+    // const cards = document.querySelectorAll(".card");
+
 
 // Step 3. Write a function that loops through the array and builds one <li> per flower:
 function renderFlowersToPage(flowersArray) {
@@ -72,6 +72,8 @@ renderFlowersToPage(flowers);
 // Step 5. At this point, you should see 5 flower cards on the page.
 
 /*
+
+
     Step 7. Add a click listener to the filters area:
     function filterFn(e) {
         // only run if a button was clicked
@@ -100,6 +102,36 @@ renderFlowersToPage(flowers);
 
     filterBtns.addEventListener("click", filterFn);
 */
+
+function filterFn(e) {
+  console.log(e.target);
+  // only run if button is clickes
+  if (e.target.classList.contains("filter-btn")){
+    //remove active class from current button
+    filterBtns.querySelector(".active").classList.remove("active");
+    // add to the clicked one
+    e.target.classList.add("active");
+
+    const filterValue = e.target.getAttribute("data-filter");
+
+    // get all cards
+    const cards = document.querySelectorAll(".card");
+    // loop through all cards
+    for (let i = 0; i < cards.length; i++) {
+      const card = cards[i];
+
+      if (card.classList.contains(filterValue) || filterValue === "all") {
+        card.classList.remove("hide");
+        card.classList.add("show");
+      } else {
+        card.classList.remove("show");
+        card.classList.add("hide");
+      }
+  }
+}
+}
+
+filterBtns.addEventListener("click", filterFn);
 
 // Step 8. Test the filters by clicking the buttons!
 
