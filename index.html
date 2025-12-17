@@ -5,9 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Whatever You Want</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
-    <canvas id="bg-net" aria-hidden="true"></canvas>
     <div id="bg-vignette" aria-hidden="true"></div>
 
     <main class="center">
@@ -15,11 +25,204 @@
         <p class="subtitle">Explore my coursework and projects</p>
 
         <div class="btn-row">
-            <a class="btn" href="assignments/">Assignments</a>
-            <a class="btn" href="excercises/">Exercises</a>
+            <a class="btn" href="assignments/layout_lina_bo_bardi/index.html">Assignments</a>
+            <a class="btn" href="https://refrigerationunit.github.io/VENUS/">Project 3</a>
         </div>
     </main>
 
-    <script src="network.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "./lib/three.webgpu.js",
+                "three/webgpu": "./lib/three.webgpu.js",
+                "three/tsl": "./lib/three.tsl.js",
+                "three/addons/": "./lib/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three/webgpu';
+        import { float, If, PI, color, cos, instanceIndex, Loop, mix, mod, sin, instancedArray, Fn, uint, uniform, uniformArray, hash, vec3, vec4 } from 'three/tsl';
+
+        let camera, scene, renderer, updateCompute;
+
+        init();
+
+        async function init() {
+            camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.set(3, 5, 8);
+
+            scene = new THREE.Scene();
+
+            // Lights
+            const ambientLight = new THREE.AmbientLight('#ffffff', 0.5);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight('#ffffff', 1.5);
+            directionalLight.position.set(4, 2, 0);
+            scene.add(directionalLight);
+
+            // Renderer
+            renderer = new THREE.WebGPURenderer({ antialias: true });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setAnimationLoop(animate);
+            renderer.setClearColor('#000000');
+            document.body.insertBefore(renderer.domElement, document.body.firstChild);
+
+            await renderer.init();
+
+            window.addEventListener('resize', onWindowResize);
+
+            // Attractors (no controls, just positions)
+            const attractorsPositions = uniformArray([
+                new THREE.Vector3(-1, 0, 0),
+                new THREE.Vector3(1, 0, -0.5),
+                new THREE.Vector3(0, 0.5, 1)
+            ]);
+            const attractorsRotationAxes = uniformArray([
+                new THREE.Vector3(0, 1, 0),
+                new THREE.Vector3(0, 1, 0),
+                new THREE.Vector3(1, 0, -0.5).normalize()
+            ]);
+            const attractorsLength = uniform(attractorsPositions.array.length, 'uint');
+
+            // Particles
+            const count = Math.pow(2, 16); // 65536 particles
+            const material = new THREE.SpriteNodeMaterial({ blending: THREE.AdditiveBlending, depthWrite: false });
+
+            const attractorMass = uniform(Number('1e7'));
+            const particleGlobalMass = uniform(Number('1e4'));
+            const timeScale = uniform(1);
+            const spinningStrength = uniform(2.75);
+            const maxSpeed = uniform(8);
+            const gravityConstant = 6.67e-11;
+            const velocityDamping = uniform(0.1);
+            const scale = uniform(0.008);
+            const boundHalfExtent = uniform(8);
+            const colorA = uniform(color('#5900ff'));
+            const colorB = uniform(color('#ffa575'));
+
+            const positionBuffer = instancedArray(count, 'vec3');
+            const velocityBuffer = instancedArray(count, 'vec3');
+
+            const sphericalToVec3 = Fn(([phi, theta]) => {
+                const sinPhiRadius = sin(phi);
+                return vec3(
+                    sinPhiRadius.mul(sin(theta)),
+                    cos(phi),
+                    sinPhiRadius.mul(cos(theta))
+                );
+            });
+
+            // Init compute
+            const initFn = Fn(() => {
+                const position = positionBuffer.element(instanceIndex);
+                const velocity = velocityBuffer.element(instanceIndex);
+
+                const basePosition = vec3(
+                    hash(instanceIndex.add(uint(Math.random() * 0xffffff))),
+                    hash(instanceIndex.add(uint(Math.random() * 0xffffff))),
+                    hash(instanceIndex.add(uint(Math.random() * 0xffffff)))
+                ).sub(0.5).mul(vec3(5, 0.2, 5));
+                position.assign(basePosition);
+
+                const phi = hash(instanceIndex.add(uint(Math.random() * 0xffffff))).mul(PI).mul(2);
+                const theta = hash(instanceIndex.add(uint(Math.random() * 0xffffff))).mul(PI);
+                const baseVelocity = sphericalToVec3(phi, theta).mul(0.05);
+                velocity.assign(baseVelocity);
+            });
+
+            const initCompute = initFn().compute(count);
+            renderer.compute(initCompute);
+
+            // Update compute
+            const particleMassMultiplier = hash(instanceIndex.add(uint(Math.random() * 0xffffff))).remap(0.25, 1).toVar();
+            const particleMass = particleMassMultiplier.mul(particleGlobalMass).toVar();
+
+            const update = Fn(() => {
+                const delta = float(1 / 60).mul(timeScale).toVar();
+                const position = positionBuffer.element(instanceIndex);
+                const velocity = velocityBuffer.element(instanceIndex);
+
+                const force = vec3(0).toVar();
+
+                Loop(attractorsLength, ({ i }) => {
+                    const attractorPosition = attractorsPositions.element(i);
+                    const attractorRotationAxis = attractorsRotationAxes.element(i);
+                    const toAttractor = attractorPosition.sub(position);
+                    const distance = toAttractor.length();
+                    const direction = toAttractor.normalize();
+
+                    // Gravity
+                    const gravityStrength = attractorMass.mul(particleMass).mul(gravityConstant).div(distance.pow(2)).toVar();
+                    const gravityForce = direction.mul(gravityStrength);
+                    force.addAssign(gravityForce);
+
+                    // Spinning
+                    const spinningForce = attractorRotationAxis.mul(gravityStrength).mul(spinningStrength);
+                    const spinningVelocity = spinningForce.cross(toAttractor);
+                    force.addAssign(spinningVelocity);
+                });
+
+                // Velocity
+                velocity.addAssign(force.mul(delta));
+                const speed = velocity.length();
+                If(speed.greaterThan(maxSpeed), () => {
+                    velocity.assign(velocity.normalize().mul(maxSpeed));
+                });
+                velocity.mulAssign(velocityDamping.oneMinus());
+
+                // Position
+                position.addAssign(velocity.mul(delta));
+
+                // Box loop
+                const halfHalfExtent = boundHalfExtent.div(2).toVar();
+                position.assign(mod(position.add(halfHalfExtent), boundHalfExtent).sub(halfHalfExtent));
+            });
+
+            updateCompute = update().compute(count);
+
+            // Material nodes
+            material.positionNode = positionBuffer.toAttribute();
+
+            material.colorNode = Fn(() => {
+                const velocity = velocityBuffer.toAttribute();
+                const speed = velocity.length();
+                const colorMix = speed.div(maxSpeed).smoothstep(0, 0.5);
+                const finalColor = mix(colorA, colorB, colorMix);
+                return vec4(finalColor, 1);
+            })();
+
+            material.scaleNode = particleMassMultiplier.mul(scale);
+
+            // Mesh
+            const geometry = new THREE.PlaneGeometry(1, 1);
+            const mesh = new THREE.InstancedMesh(geometry, material, count);
+            scene.add(mesh);
+
+            // Slow auto-rotation of camera
+            let angle = 0;
+            const radius = 10;
+            setInterval(() => {
+                angle += 0.002;
+                camera.position.x = Math.sin(angle) * radius;
+                camera.position.z = Math.cos(angle) * radius;
+                camera.lookAt(0, 0, 0);
+            }, 16);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        async function animate() {
+            renderer.compute(updateCompute);
+            renderer.render(scene, camera);
+        }
+    </script>
 </body>
 </html>
