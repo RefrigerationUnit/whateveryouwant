@@ -1,0 +1,267 @@
+/* CSS Variables */
+:root {
+    --color-bg: #fafafa;
+    --color-text: #131341;
+    --color-primary: #3833c9;
+    --color-secondary: #64748b;
+    --color-accent: #59e7bc;
+    --font-heading: 'Nanum Gothic', sans-serif;
+    --font-body: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.5;
+    font-size: 16px;
+}
+
+/* Layout */
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 200px;
+    padding: 32px 24px;
+    border-right: 3px solid var(--color-primary);
+    flex-shrink: 0;
+}
+
+.sidebar-title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    line-height: 1.2;
+    margin-bottom: 16px;
+}
+
+.sidebar-description {
+    font-size: 0.875rem;
+    color: var(--color-secondary);
+    line-height: 1.5;
+}
+
+/* Main Content */
+.content {
+    flex: 1;
+    padding: 32px 48px;
+    max-width: 900px;
+}
+
+/* Sections */
+.section {
+    margin-bottom: 48px;
+}
+
+.section-title {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 8px;
+}
+
+.section-intro {
+    font-size: 1rem;
+    color: var(--color-text);
+    margin-bottom: 16px;
+}
+
+.section-intro.indent {
+    padding-left: 24px;
+}
+
+.section-intro strong {
+    text-decoration: underline;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 16px 0 24px;
+}
+
+/* Typography Examples */
+.typography-grid {
+    display: flex;
+    gap: 48px;
+}
+
+.typography-examples {
+    max-width: 300px;
+}
+
+.demo-h1 {
+    font-family: var(--font-heading);
+    font-size: 2.441rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 16px;
+}
+
+.demo-h2 {
+    font-family: var(--font-heading);
+    font-size: 1.953rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+}
+
+.demo-h3 {
+    font-family: var(--font-heading);
+    font-size: 1.563rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+}
+
+.demo-h4 {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 16px;
+}
+
+.demo-body {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+.demo-small {
+    font-size: 0.875rem;
+    color: var(--color-secondary);
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+.demo-code {
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Color Palette */
+.color-grid {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.color-swatch {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.swatch {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.swatch-bg {
+    background-color: var(--color-bg);
+}
+
+.swatch-text {
+    background-color: var(--color-text);
+    border-color: var(--color-text);
+}
+
+.swatch-primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.swatch-secondary {
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+
+.swatch-accent {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.color-name {
+    font-size: 0.75rem;
+    color: var(--color-secondary);
+}
+
+.color-hex {
+    font-size: 0.75rem;
+    color: var(--color-text);
+}
+
+/* Subsections */
+.subsection-title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
+
+/* Buttons */
+.button-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-outline {
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #2d2aa3;
+}
+
+.btn-secondary {
+    background-color: var(--color-secondary);
+    color: white;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #4a5568;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+}
+
+.btn-outline:hover {
+    background-color: var(--color-primary);
+    color: white;
+}
